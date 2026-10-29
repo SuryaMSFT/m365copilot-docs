@@ -5,7 +5,7 @@ author: MSFTgraph-sorceress
 ms.author: hstoffels
 ms.topic: how-to
 ms.localizationpriority: medium
-ms.date: 10/13/2026
+ms.date: 10/29/2026
 ---
 
 # Migrate agentic retrieval workflows to Work IQ MCP
@@ -42,7 +42,7 @@ Keep the existing Copilot Retrieval API integration, or run both paths during a 
 | Protocol | Microsoft Graph REST | MCP `tools/call` |
 | Primary scenario | Deterministic document retrieval | Grounding for agentic workflows |
 | Authentication | Delegated Microsoft Graph permissions | Delegated `WorkIQAgent.Ask` |
-| Sources | One selected retrieval source per request | Microsoft 365 data and, with `copilot`, connected enterprise sources |
+| Sources | One selected retrieval source per request | Microsoft 365 data and, with `copilot`, connected enterprise sources (connector support is in preview) |
 | Grounding content | Per-hit extracts | Citation-bearing Markdown |
 | Programmatic metadata | Retrieval hits and requested metadata | `retrievalHits` sidecar with source and security metadata |
 | Source constraints | Source selection and KQL/filter expressions | Declarative Agent-shaped capabilities |
@@ -169,7 +169,7 @@ Additional filter support is on the roadmap. Until the filters required by your 
 
 Use capability objects to constrain email, meetings, Teams messages, people, or currently available connectors.
 
-Use `copilot` for `GraphConnectors`. Dataverse and Power BI are roadmap sources, not currently supported retrieval sources. 
+Use `copilot` for `GraphConnectors`; connector support is in preview and depends on the tenant's connected sources. The default `grounding` strategy excludes connector content. Dataverse and Power BI are roadmap sources, not currently supported retrieval sources.
 
 ## Convert response handling
 

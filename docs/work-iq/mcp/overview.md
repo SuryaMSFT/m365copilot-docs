@@ -1,11 +1,11 @@
 ---
 title: Work IQ MCP overview
-description: Learn how to use Work IQ through the Model Context Protocol (MCP) to give AI agents tool-based access to Microsoft 365 data.
+description: Learn how to use Work IQ through the Model Context Protocol (MCP) to give AI agents access to Microsoft 365 data and connected enterprise sources.
 author: jasonjoh
 ms.author: jasonjoh
 ms.topic: overview
 ms.localizationpriority: medium
-ms.date: 10/05/2026
+ms.date: 10/29/2026
 ---
 
 # Work IQ MCP overview
@@ -32,7 +32,7 @@ The tools are organized into four categories:
 
 | Category | Tools | Description |
 |----------|-------|-------------|
-| Entity tools | `fetch`, `fetch_blob`, `create_entity`, `update_entity`, `delete_entity`, `do_action`, `call_function` | CRUD operations and actions on Microsoft 365 resources |
+| Entity tools | `fetch`, `fetch_blob`, `create_entity`, `update_entity`, `delete_entity`, `do_action`, `call_function` | CRUD operations and actions on Microsoft 365 resources; connector operations in preview |
 | Copilot tools | `ask`, `retrieve`, `list_agents` | Invoke Microsoft 365 Copilot, retrieve grounding content, and discover available agents |
 | Schema tools | `get_schema`, `search_paths` | Discover available API paths and retrieve OpenAPI schemas at runtime |
 
@@ -53,6 +53,16 @@ retrieve "Find the latest launch risks"     → return grounding and source meta
 ```
 
 New workloads, backends, and data sources can add **paths** without requiring a separate tool for every resource.
+
+## Copilot connector support (preview)
+
+Connector support in Ask, Retrieve, and Tools is in preview. Available sources and operations depend on the tenant's connected sources and the signed-in user's access.
+
+| Capability | How connectors participate |
+|---|---|
+| Ask | `ask` can include connected-source content in answers from Copilot or a named agent. |
+| Retrieve | `retrieve` with `strategy: "copilot"` returns connected-source evidence. The default `grounding` strategy excludes connector content. |
+| Tools | `search_paths` and `get_schema` expose available connector operations. Reads use `call_function`; confirmed writes use `do_action`, not entity CRUD tools. |
 
 ## Authentication
 

@@ -1,11 +1,11 @@
 ---
 title: Work IQ MCP entity model
-description: Learn how Work IQ MCP uses resource paths, generic tools, and runtime schema discovery to work with Microsoft 365 entities.
+description: Learn how Work IQ MCP uses resource paths, generic tools, and runtime schema discovery to work with Microsoft 365 entities and connector operations.
 author: kangxh75
 ms.author: allenk
 ms.topic: concept-article
 ms.localizationpriority: medium
-ms.date: 06/16/2026
+ms.date: 10/29/2026
 ---
 
 <!-- cSpell:ignore Rego kangxh allenk -->
@@ -60,6 +60,10 @@ Work IQ MCP entity tools map to common operation types.
 | Function  | `call_function` | Calls an operation that returns computed or derived results. |
 
 For parameter details and examples, see [Work IQ MCP tool reference](tool-reference.md).
+
+### Connector operations (preview)
+
+Connector operations are discovered through `search_paths` and `get_schema`. Unlike Microsoft 365 CRUD operations, connector reads use `call_function`, and connector writes use `do_action` with user confirmation. See [Copilot connector support](overview.md#copilot-connector-support-preview).
 
 ## Schemas
 

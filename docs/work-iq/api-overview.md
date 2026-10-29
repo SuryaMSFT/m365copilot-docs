@@ -5,7 +5,7 @@ author: jasonjoh
 ms.author: jasonjoh
 ms.topic: overview
 ms.localizationpriority: medium
-ms.date: 08/20/2026
+ms.date: 10/29/2026
 ---
 
 <!-- markdownlint-disable MD024 -->
@@ -52,6 +52,8 @@ Work IQ can reason over:
 - People and organizational context
 - Microsoft Planner plans
 - Enterprise search results
+
+Connector support in Ask, Retrieve, and Tools is in preview. Available sources and operations depend on the tenant's connected sources and the signed-in user's access. See [Copilot connector support](mcp/overview.md#copilot-connector-support-preview).
 
 ## Choose a protocol
 
@@ -235,8 +237,10 @@ Work IQ uses Microsoft Entra ID delegated authentication.
 - On-behalf-of (OBO) flows are supported.
 - Application-only authentication isn't supported.
 - Microsoft 365 permissions, sensitivity labels, and compliance policies are enforced automatically.
+
 > [!IMPORTANT]
 > In multitenant (parent/child) organizations, the access token's issuer (`iss`) must match the tenant the signed-in user belongs to, not the tenant where the app is registered. Work IQ enabled in both tenants isn't enough. Register the app as multitenant (`AzureADMultipleOrgs`) and have users sign in through their home tenant's authority. Otherwise, the request fails with `400 AuthenticationError: "Error authenticating with resource"`.
+
 ## Path forward for new development
 
 Work IQ is the recommended foundation for new agentic and AI-powered applications on Microsoft 365 data. Build new development on Work IQ APIs to take advantage of unified protocols, integrated governance, and continued investment.
