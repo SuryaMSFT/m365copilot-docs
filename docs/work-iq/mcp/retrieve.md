@@ -5,7 +5,7 @@ author: MSFTgraph-sorceress
 ms.author: hstoffels
 ms.topic: how-to
 ms.localizationpriority: medium
-ms.date: 10/29/2026
+ms.date: 10/13/2026
 ---
 
 <!-- cSpell:ignore rerank -->
@@ -24,9 +24,6 @@ Unlike the `ask` tool, `retrieve` doesn't produce a final answer to the user's q
 - A terminal status and result count.
 
 The `retrieve` tool can search Microsoft 365 data such as email, files, meetings, Teams messages, and people. By using the `copilot` strategy, it can also search connected enterprise sources available to Microsoft 365 Copilot.
-
-> [!NOTE]
-> Connector support is in preview and depends on the tenant's connected sources and the signed-in user's access.
 
 > [!IMPORTANT]
 > Work IQ uses delegated authentication. Retrieval runs in the context of the signed-in user and doesn't grant access to content that the user can't otherwise access.
@@ -49,8 +46,8 @@ The `strategy` parameter controls where Work IQ searches.
 
 | Strategy | Search scope | Use when |
 |---|---|---|
-| `grounding` (default) | Microsoft 365 indexed content, including SharePoint, OneDrive, Teams, and Outlook; excludes connector content | You know the answer is available in Microsoft 365 and want a focused search |
-| `copilot` | Microsoft 365 indexed content plus connected enterprise sources available to Copilot (connector support is in preview) | The source is unknown or the query might require connectors, external data, or other Copilot-connected sources |
+| `grounding` (default) | Microsoft 365 indexed content, including SharePoint, OneDrive, Teams, and Outlook | You know the answer is available in Microsoft 365 and want a focused search |
+| `copilot` | Microsoft 365 indexed content plus connected enterprise sources available to Copilot | The source is unknown or the query might require connectors, external data, or other Copilot-connected sources |
 
 If you omit `strategy`, Work IQ uses `grounding`.
 
@@ -78,7 +75,7 @@ The following example searches Microsoft 365 indexed content.
 
 ## Search across connected enterprise sources
 
-Use `copilot` when the source is unknown or might be outside the Microsoft 365 index, including connector content.
+Use `copilot` when the source is unknown or might be outside the Microsoft 365 index.
 
 ```json
 {
@@ -162,7 +159,7 @@ Use the `Email` capability to limit retrieval to a shared mailbox, group mailbox
 }
 ```
 
-### Search a Copilot connector (preview)
+### Search a Microsoft Graph connector
 
 Use `GraphConnectors` with the `copilot` strategy. The following example limits retrieval to one connector and adds connector-specific search terms.
 

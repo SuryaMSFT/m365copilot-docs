@@ -5,7 +5,7 @@ author: jasonjoh
 ms.author: jasonjoh
 ms.topic: reference
 ms.localizationpriority: medium
-ms.date: 10/29/2026
+ms.date: 10/13/2026
 ---
 
 <!-- markdownlint-disable MD024 -->
@@ -17,12 +17,9 @@ The Work IQ MCP server exposes tools through the [Model Context Protocol (MCP)](
 
 Work IQ MCP uses Microsoft Entra authentication and the signed-in user's Microsoft 365 permissions when its tools access Microsoft Graph resource paths. A separate tenant policy layer evaluates each tool request and blocks mutation operations by default. Administrators can enable supported create, update, delete, and action requests through tenant policy. For details, see [Policy governance for Work IQ MCP](policy-governance-mcp.md).
 
-> [!NOTE]
-> Connector support in Ask, Retrieve, and Tools is in preview. Availability depends on the tenant's connected sources and the signed-in user's access.
-
 ## Entity tools
 
-Entity tools provide CRUD operations and actions on Microsoft 365 resources. These tools operate on relative resource paths that map to [Microsoft Graph](/graph/overview) endpoints. Connector operations (preview) use discovered paths with `call_function` for reads and `do_action` for confirmed writes, rather than entity CRUD tools.
+Entity tools provide CRUD operations and actions on Microsoft 365 resources. These tools operate on relative resource paths that map to [Microsoft Graph](/graph/overview) endpoints.
 
 ### fetch
 
@@ -400,8 +397,6 @@ A successful response contains a `statusCode` property set to 204 in the `struct
 
 Runs a side-effect action such as sending mail, copying, or moving items.
 
-Also runs connector write operations (preview) with user confirmation.
-
 #### Parameters
 
 | Parameter   | Type   | Required | Description                                                                                                |
@@ -450,8 +445,6 @@ A successful response contains an object in the `structuredContent` property wit
 ### call_function
 
 Calls a Microsoft Graph function to compute derived data such as schedules, deltas, or search results.
-
-Also runs connector read operations (preview).
 
 #### Parameters
 
@@ -537,8 +530,6 @@ Copilot tools provide natural-language intelligence by invoking Microsoft 365 Co
 
 Asks Microsoft 365 Copilot (or a specific agent) a natural-language question about your data. When you provide an `agentId`, the request goes to that specific agent. When you omit it, the request goes to the built-in Microsoft 365 Copilot agent.
 
-Answers can include connected-source content through connector support (preview).
-
 #### Parameters
 
 | Parameter        | Type         | Required | Description                                                                                                            |
@@ -593,8 +584,6 @@ Searches Microsoft 365 data and connected enterprise sources that the signed-in 
 
 > [!IMPORTANT]
 > The `retrieve` tool is available in public preview.
-
-Connector support is in preview and requires `strategy: "copilot"`; `grounding` excludes connector content.
 
 #### Parameters
 
@@ -680,7 +669,7 @@ Schema tools enable runtime discovery of available API paths and their OpenAPI s
 Retrieves the OpenAPI schema for a specific operation, identified by path and operation type.
 
 > [!NOTE]
-> Microsoft Graph v1.0 schemas and available connector schemas (preview) are supported.
+> Currently, only Microsoft Graph v1.0 schemas are available.
 
 #### Parameters
 
@@ -688,7 +677,7 @@ Retrieves the OpenAPI schema for a specific operation, identified by path and op
 |-----------------|--------|----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `operationIds`  | string | No       | The operation ID of the API to get the schema for (for example, `me.CreateMessages`). Use `operationIds` or `path`, but not both.                                                             |
 | `path`          | string | No       | The API path to get the schema for (for example, `/me/messages`). Use `operationIds` or `path`, but not both.                                                                                 |
-| `operationType` | string | Yes      | The operation type. Microsoft 365 CRUD values are `fetch`, `create`, and `update`. Connector schemas (preview) use `fetch` for reads and `action` for writes. |
+| `operationType` | string | Yes      | The operation type. Valid values are `fetch`, `create`, and `update`.                                                                                                                     |
 | `format`        | string | No       | The desired output format. Valid values are `jsonschema` ([JSON Schema](https://json-schema.org/) format) and `typescript` (TypeScript definitions). If omitted, JSON schema is returned. |
 | `backend`       | string | No       | Reserved for future use.                                                                                                                                                                  |
 | `agentId`       | string | No       | Reserved for future use.                                                                                                                                                                  |
@@ -744,7 +733,7 @@ A successful response contains the JSON schema or TypeScript definitions in the 
 Searches available API paths by prefix or regex filter. Use this tool to discover which resource paths are available before calling other tools.
 
 > [!NOTE]
-> Microsoft Graph v1.0 paths and available connector paths (preview) are supported.
+> Currently, only Microsoft Graph v1.0 paths are available.
 
 #### Parameters
 
@@ -761,7 +750,7 @@ A successful response contains a `paths` property in the `structuredContent` fie
 | Property     | Type         | Description                                                                              |
 |--------------|--------------|------------------------------------------------------------------------------------------|
 | `path`       | string       | The relative API path.                                                                   |
-| `operations` | string array | The supported operations for the path: `fetch`, `create`, and `update` for Microsoft 365 CRUD, or `fetch` and `action` for connectors (preview). |
+| `operations` | string array | The supported operations for the path. Valid values are `fetch`, `create`, and `update`. |
 
 #### Example
 
@@ -810,7 +799,7 @@ A successful response contains a `paths` property in the `structuredContent` fie
 
 ## Allowed resource paths
 
-Entity tools work with relative resource paths. For Microsoft Graph resources, the following path prefixes are allowed by default:
+Entity tools work with relative resource paths. By default, the following path prefixes are allowed:
 
 - `/me/`
 - `/users/`
@@ -823,8 +812,6 @@ The following path segments are blocked:
 
 > [!NOTE]
 > The complete list of allowed and blocked paths depends on per-tenant policy configuration and might vary.
-
-Connector paths (preview) are returned by `search_paths` and depend on tenant availability.
 
 ## Error handling
 
